@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgave 3</title>
+     <!-- Denne CSS'en skal ikke røres -->
+     <link rel="stylesheet" href="css/eksamen-css-ikke-roer3.css" type="text/css">
+</head>
+<body>
+
+    <h3>Se tilbud på PS5</h3>
+    <p id="normal-price-field">Vanlig pris: <span>vanlig pris her</span></p>
+    <p id="discount-price-field">Pris på tilbud: <span>tilbudspris her</span></p>
+
+    <script>
+        
+        /*
+        19: Vi oppretter et produkt objekt, med to objekt attributter, hvor ene er navnet, og andre er pris.
+            //Dere har valgt playstation 5 med pris på ca 6000 kroner
+
+        21: Vi oppretter en funksjon som tar inn objektet gjennom parameteren.
+        
+        22: Vi lager en lokal variabel i funksjonen som heter productPrice. Verdien til denne settes lik 
+            //objektet som sendes i parameteren sin pris. Det vil si at productPrice nå er 5999
+
+        23: Her velges en halv pris på produktet. Vi tar prisen som er lagret i den lokale variabelen og deler den 
+            //på 2. Det vil si at prisen nå er 5999 / 2 = 2999,5
+
+        24: Variabelen til objektet blir nå oppdatert til den midlertidige variabelen vi lagde i denne funksjonen. 
+            //det vil si at vi nå har oppdatert objektet sin pris og satt den lik 2999,5
+        26: vi returnerer prisen til objektet. 
+
+        */
+        var product = { name: "PS5", price: 5999 };
+
+        function getProductPriceWithDiscount( productObject ){
+            var productPrice = productObject.price;
+            productPriceWithDiscount = productPrice / 2;
+            productObject.price = productPriceWithDiscount;
+            return productObject.price;
+        }
+
+        function test(){
+
+            document.getElementById('normal-price-field').innerHTML = "Vanlig pris: " + product.price;
+            var discountPrice = getProductPriceWithDiscount(product);
+            document.getElementById("discount-price-field").innerHTML = "Pris på tilbud: " + discountPrice;
+        }
+
+        window.onload = test;
+
+    </script>
+
+</body>
+</html>

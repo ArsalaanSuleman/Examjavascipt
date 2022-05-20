@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgave 4</title>
+    <!-- Denne CSS'en skal ikke røres -->
+    <link rel="stylesheet" href="css/eksamen-css-ikke-roer3.css" type="text/css">
+</head>
+<body>
+
+    <h2 id="flashing-text-id" onmouseover="clearIntervalTimer()" onmouseleave="continueInterval()">En kreativ informasjonsside (MUS OVER MEG)</h2>
+    <select name="dropdown" id="dropdown-id" onchange="showSelectedCategoryItems(this)">
+        <option value="none">Velg et av alternativene</option>
+        <option value="animals">Dyr</option>
+        <option value="geofigures">Geometriske figurer</option>
+      </select>
+
+      <div id="output-div"></div>
+    
+    <script>
+        
+        var interval = setInterval(changeColor, 100);
+        var animalsValue = "animals";
+        var geoFiguresValue = "geofigures";
+        var cat = { id: "cat-id", name: "Kitti", age: 25, image: 'images/cat.jpg', description: "The cat (Felis catus) is a domestic species of a small carnivorous mammal. It is the only domesticated species in the family Felidae." };
+        var dog = { id: "dog-id", name: "Dogie", age: 2, image: 'images/dog.jpg', description: "Dogs (Canis lupus familiaris) are domesticated mammals, not natural wild animals. They were originally bred from wolves."};
+        var fish = { id: "fish-id", name: "Fishy", age: 4, image: 'images/fish.jpg', description: "Fish are aquatic vertebrate animals that have gills but lack limbs with digits, like fingers or toes. Recall that vertebrates are animals with internal backbones."};
+        var animalsIsSelected = false;
+        var geoFiguresIsSelected = false;
+
+        var square = { id: "square-id", name: "Square", area: 3243, image: 'images/Square.png', description: "Square, in geometry, a plane figure with four equal sides and four right (90°) angles. ... A square has four axes of symmetry, and its two finite diagonals (as with any rectangle) are equal. Bisection of a square by a diagonal results in two right triangles."};
+        var circle = { id: "circle-id", name: "Circle", area: 133, image: 'images/circle.png', description: "A circle is the set of all points in the plane that are a fixed distance (the radius) from a fixed point (the centre). Any interval joining a point on the circle to the centre is called a radius. ... Since a diameter consists of two radii joined at their endpoints, every diameter has length equal to twice the radius."};
+        var triangle = { id: "triangle-id", name: "Triangle", area: 543, image: 'images/Triangle.png',  description: "A triangle is a shape, or a part of two dimensional space. It has three straight sides and three vertices. The three angles of a triangle always add up to 180° (180 degrees). It is the polygon with the least possible number of sides."};
+
+        var animals = [];
+        animals.push(cat);
+        animals.push(dog);
+        animals.push(fish);
+        var geoFigures = [];
+        geoFigures.push(square);
+        geoFigures.push(circle);
+        geoFigures.push(triangle);
+
+        function clearIntervalTimer(){
+            clearInterval(interval);
+        }
+
+        function continueInterval(){
+            interval = setInterval(changeColor, 100);
+        }
+
+        function showSelectedCategoryItems(event){
+
+            var selectedItem = event.value;
+            switch(selectedItem){
+                case animalsValue: 
+                    showAnimals();
+                    animalsIsSelected = true;
+                    geoFiguresIsSelected = false;
+                    break;
+                case geoFiguresValue: 
+                    showGeoFigures();
+                    geoFiguresIsSelected = true;
+                    animalsIsSelected = false;
+                    break;
+            }
+        }
+
+        function recreateAllContent(){
+            var content = document.getElementById('output-div');
+            content.innerHTML = '';
+            animals = [];
+            animals.push(cat);
+            animals.push(dog);
+            animals.push(fish);
+            var geoFigures = [];
+            geoFigures.push(square);
+            geoFigures.push(circle);
+            geoFigures.push(triangle);
+      }
+
+        function showGeoFigures(){
+            recreateAllContent();
+            for(var i = 0; i < geoFigures.length; i++){
+                getShortInformation(geoFigures[i], geoFiguresValue); 
+            }
+        }
+
+        function showAnimals(){
+            recreateAllContent();
+            for(var i = 0; i < animals.length; i++){
+                getShortInformation(animals[i], animalsValue); 
+            }
+        }
+
+        function changeColor(){
+
+            var colors = ["blue", "red", "red", "pink", "green", "brown", "yellow", "orange"];
+            var randomIndex = getRandomIndex(colors);
+            document.getElementById("flashing-text-id").style.color = colors[randomIndex];
+        }
+
+        function getRandomIndex(colorArray){
+            return [Math.floor((Math.random()*colorArray.length))];
+        }
+
+        function getFullInformation(item, category){
+
+          var hr = document.createElement('hr');
+          var informationParagraph = document.createElement('h3');
+          informationParagraph.innerHTML = "Navn: " + item.name; 
+
+          var distinctParagraph = document.createElement('h3');
+          if (category == animalsValue){
+            distinctParagraph.innerHTML = "Alder: " + item.age;
+          }else if (category == geoFiguresValue){
+            distinctParagraph.innerHTML = "Areal: " + item.area;
+          }
+
+          var description = document.createElement('p');
+          description.innerHTML = item.description;
+
+          var image = document.createElement('img');
+          image.src = item.image;
+          image.style.maxWidth = "200px";
+
+          document.getElementById('output-div').appendChild(hr);
+          document.getElementById('output-div').appendChild(informationParagraph);
+          document.getElementById('output-div').appendChild(distinctParagraph);
+          document.getElementById('output-div').appendChild(description);
+          document.getElementById('output-div').appendChild(image);
+          document.getElementById('output-div').appendChild(hr);
+        }
+
+        function showPreviousPage(){
+            if (animalsIsSelected == true){
+                showAnimals();
+            }
+
+            if (geoFiguresIsSelected == true){
+                showGeoFigures();
+            }
+        }
+
+        function getShortInformation(item, category){
+
+          var moreInfoButton = document.createElement('button');
+          moreInfoButton.innerHTML = "Klikk for mer om: " + item.name;
+          moreInfoButton.onclick = function() {
+              recreateAllContent();
+              getFullInformation(item, category);
+              var backButton = document.createElement('button');
+              backButton.innerHTML = "Tilbake til oversikten"
+              document.getElementById('output-div').appendChild(backButton);
+              backButton.onclick = function() {
+                  recreateAllContent();
+                  showPreviousPage();
+              }
+          }
+
+          var hr = document.createElement('hr');
+          var informationParagraph = document.createElement('h3');
+          informationParagraph.innerHTML = "Navn: " + item.name; 
+
+          var distinctParagraph = document.createElement('h3');
+          if (category == animalsValue){
+            distinctParagraph.innerHTML = "Alder: " + item.age;
+          }else if (category == geoFiguresValue){
+            distinctParagraph.innerHTML = "Areal: " + item.area;
+          }
+
+          document.getElementById('output-div').appendChild(hr);
+          document.getElementById('output-div').appendChild(informationParagraph);
+          document.getElementById('output-div').appendChild(distinctParagraph);
+          document.getElementById('output-div').appendChild(moreInfoButton);
+          document.getElementById('output-div').appendChild(hr);
+      }
+
+    </script>
+
+</body>
+</html>

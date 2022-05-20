@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgave 2</title>
+    <!-- Denne CSS'en skal ikke røres -->
+    <link rel="stylesheet" href="css/eksamen-css-ikke-roer3.css" type="text/css">
+
+    <input id="show-all-heroes-btn" type="button" onclick="onShowAllClick()" value="Vis alle med all info">
+    <input id="show-random-btn" type="button" onclick="getRandomPerson()" value="Vis tilfeldig superhelt/superskurk med all info">
+    <input id="show-heroes-btn" type="button" onclick="showHeroes()" value="Vis bare superhelter">
+    <input id="show-villian-btn" type="button" onclick="showVillians()" value="Vis bare superskurker">
+    <input id="clear-window-button" type="button" onclick="recreateAllContent()" value="Tøm nettsiden for superhelter og superskurker">
+
+    <div id="output-div">
+
+
+    </div>
+
+</head>
+<body>
+    
+    <script>
+    
+    const amazingWoman = {
+            name: 'amazing-woman',
+            age: '20',
+            good: true,
+            image: 'images/amazing-woman.png',
+      };
+
+      const greenCape = {
+            name: 'green-cape',
+            age: '25',
+            good: false,
+            image: 'images/green-cape.png',
+      };
+
+      const shield = {
+            name: 'shield',
+            age: '30',
+            good: true,
+            image: 'images/shield.png',
+      };
+
+      const something = {
+            name: 'something',
+            age: '454342',
+            good: false,
+            image: 'images/something.png',
+      };
+
+      const vampireMan = {
+            name: 'vampire-man',
+            age: '45',
+            good: true,
+            image: 'images/vampire-man.png',
+      };
+    
+      var heroesAndVillians = [];
+      heroesAndVillians.push(amazingWoman);
+      heroesAndVillians.push(shield);
+      heroesAndVillians.push(vampireMan);
+      heroesAndVillians.push(greenCape);
+      heroesAndVillians.push(something);
+
+      function recreateAllContent(){
+          var content = document.getElementById('output-div');
+          content.innerHTML = '';
+          heroesAndVillians = [];
+          heroesAndVillians.push(amazingWoman);
+          heroesAndVillians.push(shield);
+          heroesAndVillians.push(vampireMan);
+          heroesAndVillians.push(greenCape);
+          heroesAndVillians.push(something);
+      }
+
+      function onShowAllClick(){
+        recreateAllContent();
+          for(var i = 0; i < heroesAndVillians.length; i++){
+            getPersonInformation(heroesAndVillians[i], false);
+          }
+      }
+
+      function showHeroes(){
+        recreateAllContent();
+          for(var i = 0; i < heroesAndVillians.length; i++){
+              if (heroesAndVillians[i].good == true){
+                getPersonInformation(heroesAndVillians[i], true);
+              }
+          }
+      }
+
+      function showVillians(){
+        recreateAllContent();
+          for(var i = 0; i < heroesAndVillians.length; i++){
+              if (heroesAndVillians[i].good == false){
+                getPersonInformation(heroesAndVillians[i], true);
+              }
+          }
+      }
+
+      function getRandomPerson(){
+         recreateAllContent();
+          var random = [Math.floor((Math.random()*5))] 
+          getPersonInformation(heroesAndVillians[random], true);
+      }
+
+      function getPersonInformation(person, includeAllInformation){
+          var hr = document.createElement('hr');
+          var personParagraph = document.createElement('h3');
+          personParagraph.innerHTML = "Navn: " + person.name; 
+
+          var ageParagraph = document.createElement('h3');
+          ageParagraph.innerHTML = "Alder: " + person.age;
+
+          if (includeAllInformation){
+            var category = "";
+            var categoryParagraph = document.createElement('h3');
+            if (person.good){
+              category = "superhelt";
+            }else{
+              category = "superskurk";
+            }
+            categoryParagraph.innerHTML = "Identifiseres som: " + category;
+          }
+
+          var image = document.createElement('img');
+          image.src = person.image;
+
+          document.getElementById('output-div').appendChild(hr);
+          document.getElementById('output-div').appendChild(personParagraph);
+          document.getElementById('output-div').appendChild(ageParagraph);
+          if (includeAllInformation){
+            document.getElementById('output-div').appendChild(categoryParagraph);
+          }
+          document.getElementById('output-div').appendChild(image);
+          document.getElementById('output-div').appendChild(hr);
+      }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+#box-1, #box-2{    
+    height: 50px;
+    background-color: white;
+    margin-top: 20px;
+}
+
+p{
+    color: white;
+}
+
+#box-1{
+    width: 150px;
+}
+
+#box-2{
+    width: 200px;
+}
+
+body{
+    background-color: black;
+}

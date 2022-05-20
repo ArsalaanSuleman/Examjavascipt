@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Denne CSS'en skal ikke røres -->
+    <link rel="stylesheet" href="css/eksamen-css-ikke-roer.css" type="text/css">
+    <title>Oppgave 1</title>
+</head>
+<body>
+    
+    <input id="make-box-1-longer-btn" type="button" onclick="onButton1MakeLarge()" value="Gjør boks 1 lengre">
+    <input id="make-box-1-shorter-btn" type="button" onclick="onButton1MakeSmall()" value="Gjør boks 1 kortere">
+    
+    <input id="make-box-2-longer-btn" type="button" onclick="onButton2MakeLarge()" value="Gjør boks 2 lengre">    
+    <input id="make-box-2-shorter-btn" type="button" onclick="onButton2MakeSmall()"  value="Gjør boks 2 kortere">
+
+    <p id="number-of-times-clicked-p">Antall ganger klikket: 0</p>
+
+    <div id="box-1">Boks 1: 100px</div>
+    <div id="box-2">Boks 2: 150px</div>
+
+    <!--
+        Dere har i CSS skrevet at det er 150px og 200px, men i divboksene står det 
+        100 og 150px. Vi er usikre på hva dere vil og forholder oss til tallene dere har oppgitt, 
+        og øker / minsker dem med 50px. Det blir riktig men teksten har 50 i en differanse fra det dere har 
+        skrevet i CSS. 
+
+        Dersom vi skulle endret dette ville det vært så enkelt som å skrive i hver funksjon 
+        at vi trekker i fra 50px i matematikken før vi endrer widthen. 
+    -->
+
+    <script>
+
+        let box1Name = "box-1";
+        let box2Name = "box-2";
+        var box1InnerText = "Boks 1: "
+        var box2InnerText = "Boks 2: ";
+        let increaseSize = "increase";
+        let decreaseSize = "decrese";
+        var timesClicked = 0;
+
+        function getBoxName(boxName){
+            var currentBox = "";
+            if (boxName == box1Name){
+                return box1Name;
+            }
+            
+            if (boxName == box2Name){
+                return box2Name;
+            }
+        }
+
+        function changeColorBasedOnCriterias(boxName, length){
+
+            var currentBox = getBoxName(boxName);
+
+            if (length < 200){
+                document.getElementById(currentBox).style.backgroundColor = "white";
+            }
+
+            if (length >= 200 && length <= 300){
+                document.getElementById(currentBox).style.backgroundColor = "orange";
+            }
+
+            if (length > 300){
+                document.getElementById(currentBox).style.backgroundColor = "red";
+            }
+        }
+
+        function hasMinimumLength(length){
+            if (length <= 50){
+                return true;
+            }
+        }
+
+        function increaseSizeAndRenderTexts(boxName, innerText){
+            
+            var currentLength = document.getElementById(boxName).clientWidth;
+            var newLength = parseInt(currentLength) + 50;
+            if (hasMinimumLength(newLength)){
+                return;
+            }
+            document.getElementById(boxName).style.width = newLength + "px";
+
+            //som forklart i teksten helt øverst, så er det blanding mellom hva dere har skrevet og brukt i CSS
+            //velger derfor å trekke i fra lengde i teksten slik at det blir riktig. 
+            //vi fikk beskjed om å ikke endre CSS
+            var correctedLength = newLength - 50;
+            document.getElementById(boxName).innerHTML = innerText + correctedLength + "px";
+            timesClicked++;
+            document.getElementById("number-of-times-clicked-p").innerHTML = "Antall ganger klikket: " + timesClicked;
+            changeColorBasedOnCriterias(boxName, newLength);
+        }
+
+        function decreaseSizeAndRenderTexts(boxName, innerText){
+
+            var currentLength = document.getElementById(boxName).clientWidth;
+            var newLength = parseInt(currentLength) - 50;
+            if (hasMinimumLength(newLength)){
+                return;
+            }
+            document.getElementById(boxName).style.width = newLength + "px";
+
+            //som forklart i teksten helt øverst, så er det blanding mellom hva dere har skrevet og brukt i CSS
+            //velger derfor å trekke i fra lengde i teksten slik at det blir riktig. 
+            //vi fikk beskjed om å ikke endre CSS
+            var correctedLength = newLength - 50;
+            document.getElementById(boxName).innerHTML = innerText + correctedLength + "px";
+            timesClicked++;
+            document.getElementById("number-of-times-clicked-p").innerHTML = "Antall ganger klikket: " + timesClicked;
+            changeColorBasedOnCriterias(boxName, newLength);
+        }
+
+        function onButton1MakeLarge(){
+            increaseSizeAndRenderTexts(box1Name, box1InnerText);
+        }
+
+        function onButton1MakeSmall(){
+            decreaseSizeAndRenderTexts(box1Name, box1InnerText);
+        }
+
+        function onButton2MakeLarge(){
+            increaseSizeAndRenderTexts(box2Name, box2InnerText);
+        }
+
+        function onButton2MakeSmall(){
+            decreaseSizeAndRenderTexts(box2Name, box2InnerText);
+        }
+
+    </script>
+
+</body>
+</html>
